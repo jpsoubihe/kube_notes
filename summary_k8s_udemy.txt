@@ -114,12 +114,31 @@ Configurando aplicações num cluster k8s
 		A vantagem do seu uso é o armazenamento dentro do cluster, podendo ser anexado aos recursos apropriados.
 		Devemos criar um 'volume' na especificação do recurso para que ele possa acessar o configMap, além disso a própria referência ao ConfigMap, pelo nome, deverá ser especificada.
 
-
+Ingress
+	Anteriormente vimos configurações como o NodePort e a abstração de um Service para expor pods internos do cluster a usuários externos.
+	Relacionando essa prática com serviços HTTP, podemos pensar em uma espécie de "proxy reverso" para intermediar essa comunicação e agir como um "redirecionador" ou até como um LoadBalancer
+	o Ingress é um recurso built-in do k8s específico para requests HTTP/S. Lida com conexões "de fora para dentro" do cluster.   
+	As features básicas que esse tipo de recurso habilita seriam:
+		- load balancing
+		- SSL
+		- Roteamento baseado em DNS, segundo o nome (por exemplo, de acordo com o nome especificado o ingress irá identificar que pod deverá ser acionado).
+	O Ingress pode ser usado de forma que toda a organização do seu cluster se volte a sua especifica composição (os requests aos pods do cluster passarão por ele).
+	A sua solução como um todo será composta de algumas partes
+		1. Ingress controller
+			Diferentemente dos controllers de recursos como o Deployment Controller ou o ReplicaSet Controller, o Ingress controller não é um recurso built-in do k8s e deverá ser manualmente instalado e gerenciado.
+			Assim sendo esse componente agirá de forma semelhante ao 'controller manager' built-in do k8s mas responsável pelos controllers do recurso Ingress.
+			Basicamente, ele vai rodar um loop onde identificará todos os recusrsos Ingress e atualizará o cluster para que o acesso seja concedido.  
+		2. DNS
+			Muitas vezes, quando for necessário algum tipo de DNS externo para acesso aos recursos do cluster (quando usuários externos poderão usar nomes para enviar requests a pods do cluster, via Ingress).
+		3. Criação de recursos Ingress
+			1 por serviço que deverão receber requests externos ao cluster
+			O Ingress controller será o responsável por encontrar esses recursos e configurar o Load Balancer para tais.
+	hostNetwork
+		Configuração específica de um pod.Spec
+		Normalmente, cada pod terá o seu próprio network namespace, onde o próprio kubernetes irá setar a rede para que o pod se comunique com os demais recursos do cluster.
+		Caso a flag hostNetwork seja True, ou seja, seja acionada, essa auto-configuração não ocorre e a rede usada pelo pod será a própria rede do host, física (não mais virtual).
+		Dessa forma, o IP do pod será o IP do próprio host;
+	O Ingress Controller basicamente tem conhecimento dos endpoints usados pelos serviços expostos. Com isso, ele redireciona o request diretamente para o pod específico, de acordo com o endpoint registrado internamente.
+	É possível que nosso cluster tenham múltiplos Ingress Controllers, mas é bem incomum.
+	Annotations podem ter um importante papel ao configurar esses controllers. Muito cuidado, pois seu comportamento não é necessariamente exato, como esperamos. E caso algo que possa impactar algum serviço mude no cluster, devemos manualmente checar se as annotations ainda são válidas e, se não for o caso, alterá-las.
 	
-
-
-	
-	
-	  
-
-		

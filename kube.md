@@ -260,4 +260,5 @@ Annotations podem ter um importante papel ao configurar esses controllers. Muito
 ## Fontes
 
 [1] - https://kubernetes.io/docs/concepts/overview/components/
+
 [2] Kubernetes Mastery: Hands-On Lessons From A Docker Captain - https://www.udemy.com/course/kubernetesmastery/

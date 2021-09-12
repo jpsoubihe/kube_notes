@@ -10,7 +10,7 @@ O Cluster kubernetes é baseado em alguns componentes, serviços que desempenham
 
 ### Componentes
 
-![Kubernetes components scheme](components.png)
+![Kubernetes components scheme](https://github.com/jpsoubihe/kube_notes/images/components.png)
 
 Os componentes podem ser divididos em:
 
@@ -59,7 +59,7 @@ Imaginemos a criação de um deployment:
     O Scheduler acionará o kubelet respectivo ao node determinado para que finalmente aplique os recursos em sua infra-estrutura, ao hardware por si só e só então o Deployment terá os seus pods rodando com sucesso. 
     Nota: o Apiserver é o único componente que se comunicará com o etcd, logo, todas as informações que deverão ser atualizadas no banco do cluster passarão por ele e então serão encaminhadas ao etcd.
 
-![Resource creation scheme](resource_creation.png)
+![Resource creation scheme](https://github.com/jpsoubihe/kube_notes/images/resource_creation.png)
 
 ## Comunicação e acesso
 
